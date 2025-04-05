@@ -13,6 +13,6 @@ class productos extends Model
 
     public function categoria()
     {
-        return $this->belongsTo(categorias::class);
+        return $this->belongsTo(categorias_productos::class);
     }
 };

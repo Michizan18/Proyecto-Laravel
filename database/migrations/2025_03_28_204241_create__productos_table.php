@@ -33,7 +33,7 @@ return new class extends Migration
             $table->integer('stock'); 
             $table->foreignId('categoria_id')
                   ->constrained('categorias_productos') 
-                  ->cascadeOnDelete();
+                  ->onDelete('cascade');
             $table->string('url_imagen');
             $table->timestamps();
         });
