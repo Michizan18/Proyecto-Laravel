@@ -1,39 +1,33 @@
 <?php
 
-// routes/web.php
-
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\CategoriaBlogController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ProductoController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InicioController;
+use App\Models\Articulo;
+use App\Models\CategoriaBlog;
 
-// Rutas para la página principal
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// Ruta de principal
+Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
-// Rutas para el e-commerce (productos)
+// Rutas E-commerce
 Route::resource('productos', ProductoController::class);
-Route::get('productos/categoria/{categoria}', [ProductoController::class, 'filtrarPorCategoria'])->name('productos.categoria');
+Route::get('productos/categoria/{categoria}', [ProductoController::class, 'porCategoria'])->name('productos.categoria');
 
-// Rutas para las categorías de productos
+// Rutas categorías de productos
 Route::resource('categorias', CategoriaController::class);
 
-// Rutas para el blog (artículos)
+// Rutas para blog
 Route::resource('articulos', ArticuloController::class);
+Route::get('articulos/categoria/{categoriaBlog}', [ArticuloController::class, 'porCategoria'])->name('articulos.categoria');
 
-// Rutas para las categorías del blog
+// Rutas para categorias de blog 
 Route::resource('categorias-blog', CategoriaBlogController::class);
 
-// Rutas para los comentarios
-Route::resource('comentarios', ComentarioController::class);
-
-// Ruta para cambiar el idioma
-Route::get('locale/{locale}', function ($locale) {
-    if (in_array($locale, ['en', 'es'])) {
-        session(['locale' => $locale]);
-    }
-    return back();
-})->name('locale');
+//Rutas para comentarios
+Route::post('articulos/{articulo}/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
+Route::put('comentarios/{comentario}', [ComentarioController::class, 'update'])->name('comentarios.update');
+Route::delete('comentarios/{comentario}', [ComentarioController::class, 'destroy'])->name('comentarios.destroy');

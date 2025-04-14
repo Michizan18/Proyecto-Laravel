@@ -2,63 +2,121 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Articulo;
+use App\Models\CategoriaBlog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class ArticuloController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra un listado de artículos con paginación
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $categoriaId = $request->input('categoria_blog_id');
+
+        if ($categoriaId) {
+            $articulos = Articulo::where('categoria_blog_id', $categoriaId)->paginate(10);
+        } else {
+            $articulos = Articulo::paginate(10);
+        }
+
+        $categorias = CategoriaBlog::all();
+        return view('blog.articulos.index', compact('articulos', 'categorias', 'categoriaId'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo artículo
      */
     public function create()
     {
-        //
+        $categorias = CategoriaBlog::all();
+        return view('blog.articulos.create', compact('categorias'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo artículo en la base de datos
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titulo' => 'required|string|max:55',
+            'contenido' => 'required|string',
+            'autor' => 'required|string|max:55',
+            'categoria_blog_id' => 'required|exists:categorias_blog,id',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $articulo = new Articulo($request->except('imagen'));
+        $articulo->fecha_publicacion = now();
+
+        if ($request->hasFile('imagen')){
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+            $imagen->move(public_path('imagenes/blog'), $nombreImagen);
+            $articulo->imagen_destacada = 'imagenes/blog/' . $nombreImagen;
+        }
+
+        $articulo->save();
+
+        return redirect()->route('blog.articulos.index')
+            ->with('success', 'Artículo creado exitosamente');
     }
 
     /**
-     * Display the specified resource.
+     * Muestra los detalles de un artículo específico con sus comentarios
      */
-    public function show(string $id)
+    public function show(Articulo $articulo)
     {
-        //
+        $comentarios = $articulo->comentarios()->paginate(10);
+        return view('blog.articulos.show', compact('articulo', 'comentarios'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar un artículo
      */
-    public function edit(string $id)
+    public function edit(Articulo $articulo)
     {
-        //
+        $categorias = CategoriaBlog::all();
+        return view('blog.articulos.edit', compact('articulo', 'categorias'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un artículo específico en la base de datos
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Articulo $articulo)
     {
-        //
+        $request->validate([
+            'titulo' => 'required|string|max:55',
+            'contenido' => 'required|string',
+            'autor' => 'required|string|max:55',
+            'categoria_blog_id' => 'required|exists:categorias_blog,id',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $articulo->fill($request->except('imagen'));
+
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+            $imagen->move(public_path('imagenes/blog'), $nombreImagen);
+            $articulo->imagen_destacada = 'imagen/blog/' . $nombreImagen;
+        }
+
+        $articulo->save();
+
+        return redirect()->route('blog.articulos.index')
+            ->with('success', 'Artículo actualizado con éxito');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un artículo específico de la base de datos
      */
-    public function destroy(string $id)
+    public function destroy(Articulo $articulo)
     {
-        //
+        $articulo->delete();
+        return redirect()->route('blog.articulos.index')
+            ->with('success', 'Artículo eliminado con éxito');
     }
 }

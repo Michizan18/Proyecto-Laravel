@@ -1,64 +1,69 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Categoria;
+use Illuminate\Http\request;
 
 class CategoriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    /*Listado de categorías*/
     public function index()
     {
-        //
+        $categorias = Categoria::all();
+        return view('categorias.index', compact('categorias'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    /*Formulario para nueva categoría*/
     public function create()
     {
-        //
+        return view('categorias.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    /*Almacena una nueva gategoría en la base de datos*/
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:55',
+            'description' => 'nullable|string',
+        ]);
+
+        Categoria::create($request->all());
+        return redirect()->route('categorias.index')
+            ->with('success', 'Categoría creada exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    /*Muestra detalles de una categoría específica*/
+    public function show(Categoria $categoria)
     {
-        //
+        return view('categorias.show', compact('categoria'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    /*Muestra formulario para editar un categoría*/
+    public function edit(Categoria $categoria)
     {
-        //
+        return view('categorias.edit', compact('categoria'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    /*Actualiza una categoría específica en la base de datos*/
+    public function update(Request $request, Categoria $categoria)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        $categoria->update($request->all());
+        return redirect()->rpoute('categorias.index')
+            ->with('success', 'Categoría actualizada exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    /*Elimina una categoría específica de la base de datos*/
+    public function destroy(Categoria $categoria)
     {
-        //
+        $categoria->delete();
+        return redirect()->route('categorias.index')
+            ->with('success', 'Categoría eliminada exitosamente.');
     }
+
 }
