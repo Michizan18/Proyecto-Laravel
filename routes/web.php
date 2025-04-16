@@ -31,3 +31,9 @@ Route::resource('categorias-blog', CategoriaBlogController::class);
 Route::post('articulos/{articulo}/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
 Route::put('comentarios/{comentario}', [ComentarioController::class, 'update'])->name('comentarios.update');
 Route::delete('comentarios/{comentario}', [ComentarioController::class, 'destroy'])->name('comentarios.destroy');
+
+// Rutas para cambio de idioma
+Route::get('locale/{locale}', function ($locale) {
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('locale');
