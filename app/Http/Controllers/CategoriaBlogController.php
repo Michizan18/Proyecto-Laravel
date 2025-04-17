@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CategoriaBlogController extends Controller
 {
     /**
-     * Muestra un listado de categoría de blog
+     * Muestra un listado de categorías de blog.
      */
     public function index()
     {
@@ -17,7 +17,7 @@ class CategoriaBlogController extends Controller
     }
 
     /**
-     * Muestar el formulario para crear una nueva categoria de blog
+     * Muestra el formulario para crear una nueva categoría de blog.
      */
     public function create()
     {
@@ -25,30 +25,30 @@ class CategoriaBlogController extends Controller
     }
 
     /**
-     * Almacena una nueva categoría de blog en la base de datos
+     * Almacena una nueva categoría de blog en la base de datos.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:55',
+            'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
         ]);
 
         CategoriaBlog::create($request->all());
         return redirect()->route('blog.categorias.index')
-            ->with('success', 'Categoría de blog creada exitosamente');
+            ->with('success', 'Categoría de blog creada exitosamente.');
     }
 
     /**
-     * Muestra los detalles de una categoría de blog específica
+     * Muestra los detalles de una categoría de blog específica.
      */
     public function show(CategoriaBlog $categoriaBlog)
     {
-        return view('blog.categoria.show', compact('categoriaBlog'));
+        return view('blog.categorias.show', compact('categoriaBlog'));
     }
 
     /**
-     * Muestra el formulario para editar una categoria de blog
+     * Muestra el formulario para editar una categoría de blog.
      */
     public function edit(CategoriaBlog $categoriaBlog)
     {
@@ -56,27 +56,27 @@ class CategoriaBlogController extends Controller
     }
 
     /**
-     * Actualiza una categoria de blog específica en la base de datos
+     * Actualiza una categoría de blog específica en la base de datos.
      */
     public function update(Request $request, CategoriaBlog $categoriaBlog)
     {
         $request->validate([
-            'nombre' => 'required|string1max:55',
-            'descripcion' => 'nullable|string'
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
         ]);
 
         $categoriaBlog->update($request->all());
         return redirect()->route('blog.categorias.index')
-            ->with('success', 'Categoría de blog actualizada con éxito');
+            ->with('success', 'Categoría de blog actualizada exitosamente.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una categoría de blog específica de la base de datos.
      */
     public function destroy(CategoriaBlog $categoriaBlog)
     {
         $categoriaBlog->delete();
         return redirect()->route('blog.categorias.index')
-            ->with('success', 'categoría de blog eliminada exitosamente');
+            ->with('success', 'Categoría de blog eliminada exitosamente.');
     }
 }

@@ -14,35 +14,35 @@
 </div>
 
 <div class="row mt-5">
-    <div class="col md-6">
+    <div class="col-md-6">
         <h2>{{ __('Productos Destacados') }}</h2>
         <div class="row">
-            @foreach ($productosDestacados as $producto)
+            @foreach($productosDestacados as $producto)
                 <div class="col-md-6 mb-4">
                     <div class="card h-100">
-                        @if ($producto->imagen)
+                        @if($producto->imagen)
                             <img src="{{ asset('storage/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
-                        @else 
+                        @else
                             <img src="{{ asset('img/producto-default.jpg') }}" class="card-img-top" alt="{{ $producto->nombre }}">
                         @endif
                         <div class="card-body">
                             <h5 class="card-title">{{ $producto->nombre }}</h5>
-                            <p class="card-text text-success fw-bold">${{ number_format($producto->precio, 2) }}</p>
-                            <a href="" class="btn btn-sm btn-outline-primary">{{ __('Ver detalles') }}</a>
+                            <p class="card-text text-success fw-bold">${{ number_format($producto->precio, 3) }}</p>
+                            {{-- <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-sm btn-outline-primary">{{ __('Ver detalles') }}</a> --}}
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
-
+    
     <div class="col-md-6">
         <h2>{{ __('Últimos Artículos') }}</h2>
-        @foreach ($articulosRecientes as $articulo)
+        @foreach($articulosRecientes as $articulo)
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        @if ($articulo->imagen)
+                        @if($articulo->imagen)
                             <img src="{{ asset('storage/' . $articulo->imagen) }}" class="img-fluid rounded-start" alt="{{ $articulo->titulo }}">
                         @else
                             <img src="{{ asset('img/articulo-default.jpg') }}" class="img-fluid rounded-start" alt="{{ $articulo->titulo }}">
@@ -61,3 +61,4 @@
         @endforeach
     </div>
 </div>
+@endsection

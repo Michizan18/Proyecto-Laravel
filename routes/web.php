@@ -7,13 +7,12 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\InicioController;
-use App\Models\Articulo;
-use App\Models\CategoriaBlog;
 
-// Ruta de principal
+
+// Ruta principal
 Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
-// Rutas E-commerce
+// Rutas P0oductos, E-commerce
 Route::resource('productos', ProductoController::class);
 Route::get('productos/categoria/{categoria}', [ProductoController::class, 'porCategoria'])->name('productos.categoria');
 

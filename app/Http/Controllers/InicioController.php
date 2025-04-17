@@ -8,17 +8,26 @@ class InicioController extends Controller
 {
     public function index()
     {
-        // Crea objetos Producto manualmente si es necesario para pruebas
         $productosDestacados = collect([
             new \App\Models\Producto([
-                'nombre' => 'Producto 1',
+                'id'          => 1,
+                'nombre'      => 'Producto 1',
                 'descripcion' => 'Descripción del producto 1',
-                'precio' => 19.99,
-                'stock' => 10,
-                'imagen' => null
+                'precio'      => 20.000,
+                'stock'       => 10,
+                'imagen'      => null,
             ]),
-            // Agrega más productos si es necesario...
+            new \App\Models\Producto([
+                'id'          => 2,
+                'nombre'      => 'Producto 2',
+                'descripcion' => 'Descripción del producto 2',
+                'precio'      => 50.000,
+                'stock'       => 5,
+                'imagen'      => null,
+            ]),
+            // …
         ]);
+        
         
         $articulosRecientes = collect([]);  // Similar para artículos
         
