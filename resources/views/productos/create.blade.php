@@ -60,7 +60,7 @@
                 
                 <div class="mb-3">
                     <label for="imagen" class="form-label">Imagen del Producto</label>
-                    <input class="form-control" type="file" id="imagen" name="imagen">
+                    <input class="form-control" type="file" id="imagen" name="ruta_imagen">
                 </div>
                 
                 <div class="d-flex justify-content-end gap-2">

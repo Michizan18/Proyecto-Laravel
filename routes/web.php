@@ -12,9 +12,24 @@ use App\Http\Controllers\InicioController;
 // Ruta principal
 Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
-// Rutas P0oductos, E-commerce
-Route::resource('productos', ProductoController::class);
+// Rutas Productos, E-commerce
+// Route::resource('productos', ProductoController::class);
 Route::get('productos/categoria/{categoria}', [ProductoController::class, 'porCategoria'])->name('productos.categoria');
+//muestra todos lso regsitros
+Route::get('/ecomerce/productos', [ProductoController::class, 'index'])->name('productos.index');
+//muestra el formulario
+Route::get('/ecomerce/nuevo-productos', [ProductoController::class, 'create'])->name('productos.create');
+//maneja la logica del formulario
+Route::post('/ecomerce/nuevo-producto-cargando', [ProductoController::class, 'store'])->name('productos.store');
+//muestra un producto
+Route::get('/ecomerce/productos/ver-{id}', [ProductoController::class, 'show'])->name('productos.show');
+//formulario para editar
+Route::get('/ecomerce/productos/editar-{id}', [ProductoController::class, 'edit'])->name('productos.edit');
+//logica para actualizar
+Route::put('/ecomerce/productos/editar-{id}-cargando', [ProductoController::class, 'update'])->name('productos.update');
+//eliminar producto
+Route::delete('/ecomerce/producto/-{id}-eliminar', [ProductoController::class, 'destroy'])->name('productos.destroy');
+
 
 // Rutas categorías de productos
 Route::resource('categorias', CategoriaController::class);

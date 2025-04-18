@@ -13,9 +13,9 @@
 
     <div class="card mb-4">
         <div class="row g-0">
-            @if ($producto->ruta_imagen)
-                <img src="{{ asset($producto->ruta_imagen) }}" class="img-fluid rounded-start" alt="{{ $producto->nombre }}">
-            @else
+             @if($producto->ruta_imagen)
+                <img src="{{ asset('storage/' . $producto->ruta_imagen) }}" alt="{{ $producto->nombre }}">
+                @else
                 <div class="bg-light d-flex align-items-center justify-content-center">
                     <span class="text-muted">Sin imagen</span>
                 </div>
@@ -38,8 +38,8 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <a href="{{ route('productos.edit', $producto) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('producto.destroy', $producto) }}" method="POST">
+                    <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{  route('productos.destroy', $producto->id)}}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este producto?')">
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    @if ($productosRelacionados->count() > 0)
+    {{-- @if ($productosRelacionados->count() > 0)
         <h3>Productos Relacionados</h3>
         <div class="row">
             @foreach ($productosRelacionados as $productoRelacionado)
@@ -73,6 +73,6 @@
                 </div>
             @endforeach
         </div>
-    @endif
+    @endif --}}
 </div>
 @endsection

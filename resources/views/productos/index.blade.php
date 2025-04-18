@@ -31,8 +31,8 @@
                 @foreach($productos as $producto)
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
-                            @if($producto->imagen)
-                                <img src="{{ asset('storage/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                            @if($producto->ruta_imagen)
+                                <img src="{{ asset('storage/' . $producto->ruta_imagen) }}" alt="{{ $producto->nombre }}">
                             @else
                                 <img src="{{ asset('img/producto-default.jpg') }}" class="card-img-top" alt="{{ $producto->nombre }}">
                             @endif
@@ -45,10 +45,10 @@
                                     </span>
                                 </p>
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('productos.show', $producto) }}" class="btn btn-sm btn-primary">{{ __('Ver') }}</a>
+                                    <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-sm btn-primary">{{ __('Ver') }}</a>
                                     <div>
-                                        <a href="{{ route('productos.edit', $producto) }}" class="btn btn-sm btn-warning">{{ __('Editar') }}</a>
-                                        <form action="{{ route('productos.destroy', $producto) }}" method="POST" class="d-inline">
+                                        <a href="{{  route('productos.edit', $producto->id)}}" class="btn btn-sm btn-warning">{{ __('Editar') }}</a>
+                                        <form action="{{  route('productos.destroy', $producto->id)}}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('{{ __('¿Estás seguro?') }}')">{{ __('Eliminar') }}</button>

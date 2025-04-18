@@ -18,7 +18,7 @@
         <h2>{{ __('Productos Destacados') }}</h2>
         <div class="row">
             @foreach($productosDestacados as $producto)
-                <div class="col-md-6 mb-4">
+                <div class="col-md-5 mb-4">
                     <div class="card h-100">
                         @if($producto->imagen)
                             <img src="{{ asset('storage/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">

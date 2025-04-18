@@ -33,7 +33,7 @@
                             <a class="nav-link {{ request()->routeIs('productos.index') ? 'active' : '' }}" href="{{ route('productos.index') }}">Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('categorias.*') ? 'active' : '' }}" href="#">Categorías</a>
+                            <a class="nav-link {{ request()->routeIs('categorias.index') ? 'active' : '' }}" href="{{ route('categorias.index') }}">Categorías</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('articulos.*') ? 'active' : '' }}" href="#">Blog</a>
