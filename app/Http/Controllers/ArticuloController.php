@@ -30,8 +30,8 @@ class ArticuloController extends Controller
      */
     public function create()
     {
-        $categorias = CategoriaBlog::all();
-        return view('blog.articulos.create', compact('categorias'));
+        $categorias_blog = CategoriaBlog::all();
+        return view('blog.articulos.create', compact('categorias_blog'));
     }
 
     /**

@@ -6,17 +6,11 @@
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>{{ __('Categorías') }}</h1>
-            <a href="{{ route('categorias.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> {{ __('Nueva Categoría') }}
+            <a href="{{ route('categorias.create') }}" class="btn btn-success">
+                {{ __('Nueva Categoría') }}
             </a>
         </div>
     </div>
-
-    @if(@session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <div class="card">
         <div class="card-body">
@@ -24,7 +18,6 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>{{ __('Nombre') }}</th>
                             <th>{{ __('Descripción') }}</th>
                             <th>{{ __('Acciones') }}</th>
@@ -33,23 +26,16 @@
                     <tbody>
                         @forelse ($categorias as $categoria)
                             <tr>
-                                <td>{{ $categoria->id }}</td>
                                 <td>{{ $categoria->nombre }}</td>
-                                <td>{{ $categoria->descripcion }}</td>
+                                <td>{{ Str::limit($categoria->descripcion, 50) }}</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('categorias.show', $categoria) }}" class="btn btn-sm btn-info">
-                                            <i class="fas fa-eye"></i> 
-                                        </a>
-                                        <a href="{{ route('categorias.edit', $categoria) }}" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?')">
+                                        <a href="{{ route('categorias.show', $categoria) }}" class="me-2 btn btn-sm btn-primary">{{ __('Ver') }}</a>
+                                        <a href="{{ route('categorias.edit', $categoria) }}" class="me-2 btn btn-sm btn-warning">{{ __('Editar') }}</a>
+                                        <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('{{ __('¿Estás seguro de eliminar esta categoría?') }}')">{{ __('Eliminar') }}</button>
                                         </form>
                                     </div>
                                 </td>

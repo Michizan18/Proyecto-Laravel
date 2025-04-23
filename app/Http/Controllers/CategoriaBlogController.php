@@ -21,7 +21,9 @@ class CategoriaBlogController extends Controller
      */
     public function create()
     {
-        return view('blog.categorias.create');
+        $categorias_blog = \App\Models\CategoriaBlog::all();
+     
+        return view('blog.categorias.create', compact('categorias_blog'));
     }
 
     /**

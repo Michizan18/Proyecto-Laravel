@@ -16,8 +16,8 @@
                 <a href="{{ route('productos.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('productos.index') && !request()->has('categoria') ? 'active' : '' }}">
                     {{ __('Todas') }}
                 </a>
-                @foreach($categorias as $categoria)
-                    <a href="{{ route('productos.categoria', $categoria) }}" class="list-group-item list-group-item-action {{ request()->is('productos/categoria/'.$categoria->id) ? 'active' : '' }}">
+                @foreach( $categorias as $categoria)
+                    <a href="{{ route('productos.por_categoria', $categoria) }}" class="list-group-item list-group-item-action {{ request()->is('productos/categoria/'.$categoria->id) ? 'active' : '' }}">
                         {{ $categoria->nombre }}
                     </a>
                 @endforeach
@@ -28,17 +28,17 @@
     <div class="col-md-9">
         @if($productos->count())
             <div class="row">
-                @foreach($productos as $producto)
+                @foreach( $productos as $producto)
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
-                            @if($producto->ruta_imagen)
-                                <img src="{{ asset('storage/' . $producto->ruta_imagen) }}" alt="{{ $producto->nombre }}">
+                            @if( $producto->ruta_imagen)
+                                <img src="{{ asset('storage/imgProductos/' . $producto->ruta_imagen) }}" alt="{{ $producto->nombre }}">
                             @else
-                                <img src="{{ asset('img/producto-default.jpg') }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                                <img src="{{ asset('imagenes/producto-default.jpg') }}" class="card-img-top" alt="{{ $producto->nombre }}">
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $producto->nombre }}</h5>
-                                <p class="card-text text-success fw-bold">${{ number_format($producto->precio, 2) }}</p>
+                                <p class="card-text text-success fw-bold">${{ number_format( $producto->precio, 2) }}</p>
                                 <p class="card-text">
                                     <span class="badge {{ $producto->stock > 5 ? 'bg-success' : 'bg-danger' }}">
                                         {{ __('Stock') }}: {{ $producto->stock }}

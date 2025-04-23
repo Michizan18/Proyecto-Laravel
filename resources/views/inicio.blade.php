@@ -23,7 +23,7 @@
                         @if($producto->imagen)
                             <img src="{{ asset('storage/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
                         @else
-                            <img src="{{ asset('img/producto-default.jpg') }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                            <img src="{{ asset('imagenes/producto-default.jpg') }}" class="card-img-top" alt="{{ $producto->nombre }}">
                         @endif
                         <div class="card-body">
                             <h5 class="card-title">{{ $producto->nombre }}</h5>
