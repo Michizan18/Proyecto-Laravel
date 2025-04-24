@@ -47,14 +47,18 @@ class ArticuloController extends Controller
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $articulo = new Articulo($request->except('imagen'));
+        $articulo = new Articulo();
+        $articulo->titulo = $request->titulo;
+        $articulo->contenido = $request->contenido;
+        $articulo->autor = $request->autor;
+        $articulo->categoria_blog_id = $request->categoria_blog_id;
         $articulo->fecha_publicacion = now();
         
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');
             $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
             $imagen->move(public_path('imagenes/blog'), $nombreImagen);
-            $articulo->imagen_destacada = 'imagenes/blog/' . $nombreImagen;
+            $articulo->imagen = 'imagenes/blog/' . $nombreImagen;
         }
         
         $articulo->save();
@@ -77,8 +81,8 @@ class ArticuloController extends Controller
      */
     public function edit(Articulo $articulo)
     {
-        $categorias = CategoriaBlog::all();
-        return view('blog.articulos.edit', compact('articulo', 'categorias'));
+        $categorias_blog = CategoriaBlog::all();
+        return view('blog.articulos.edit', compact('articulo', 'categorias_blog'));
     }
 
     /**
@@ -100,7 +104,7 @@ class ArticuloController extends Controller
             $imagen = $request->file('imagen');
             $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
             $imagen->move(public_path('imagenes/blog'), $nombreImagen);
-            $articulo->imagen_destacada = 'imagenes/blog/' . $nombreImagen;
+            $articulo->imagen = 'imagenes/blog/' . $nombreImagen;
         }
         
         $articulo->save();

@@ -36,7 +36,13 @@
                             <a class="nav-link {{ request()->routeIs('categorias.index') ? 'active' : '' }}" href="{{ route('categorias.index') }}">Categorías</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('articulos.*') ? 'active' : '' }}" href="{{ route('articulos.index') }}">Blog</a>
+                            <span class="nav-link">|</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('articulos.index*') ? 'active' : '' }}" href="{{ route('articulos.index') }}">Artículos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('categoriasBlog.index*') ? 'active' : '' }}" href="{{ route('blog.categoriasBlog.index') }}">Categorias de Blog</a>
                         </li>
                     </ul>
                 </div>

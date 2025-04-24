@@ -12,8 +12,8 @@ class CategoriaBlogController extends Controller
      */
     public function index()
     {
-        $categorias = CategoriaBlog::all();
-        return view('blog.categorias.index', compact('categorias'));
+        $categorias = CategoriaBlog::paginate(10);
+        return view('blog.categoriasBlog.index', compact('categorias'));
     }
 
     /**
@@ -21,9 +21,7 @@ class CategoriaBlogController extends Controller
      */
     public function create()
     {
-        $categorias_blog = \App\Models\CategoriaBlog::all();
-     
-        return view('blog.categorias.create', compact('categorias_blog'));
+        return view('blog.categoriasBlog.create');
     }
 
     /**
@@ -37,7 +35,7 @@ class CategoriaBlogController extends Controller
         ]);
 
         CategoriaBlog::create($request->all());
-        return redirect()->route('blog.categorias.index')
+        return redirect()->route('blog.categoriasBlog.index')
             ->with('success', 'Categoría de blog creada exitosamente.');
     }
 
@@ -46,7 +44,7 @@ class CategoriaBlogController extends Controller
      */
     public function show(CategoriaBlog $categoriaBlog)
     {
-        return view('blog.categorias.show', compact('categoriaBlog'));
+        return view('blog.categoriasBlog.show', compact('categoriaBlog'));
     }
 
     /**
@@ -54,7 +52,7 @@ class CategoriaBlogController extends Controller
      */
     public function edit(CategoriaBlog $categoriaBlog)
     {
-        return view('blog.categorias.edit', compact('categoriaBlog'));
+        return view('blog.categoriasBlog.edit', compact('categoriaBlog'));
     }
 
     /**
@@ -68,7 +66,7 @@ class CategoriaBlogController extends Controller
         ]);
 
         $categoriaBlog->update($request->all());
-        return redirect()->route('blog.categorias.index')
+        return redirect()->route('blog.categoriasBlog.index')
             ->with('success', 'Categoría de blog actualizada exitosamente.');
     }
 
@@ -78,7 +76,7 @@ class CategoriaBlogController extends Controller
     public function destroy(CategoriaBlog $categoriaBlog)
     {
         $categoriaBlog->delete();
-        return redirect()->route('blog.categorias.index')
+        return redirect()->route('blog.categoriasBlog.index')
             ->with('success', 'Categoría de blog eliminada exitosamente.');
     }
 }

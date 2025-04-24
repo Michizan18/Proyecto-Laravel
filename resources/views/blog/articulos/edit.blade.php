@@ -2,7 +2,7 @@
 
 @section('titulo', __('Editar Artículo'))
 
-@section('content')
+@section('contenido')
     <div class="container py-4">
         <div class="row">
             <div class="col-md-10 mx-auto">
@@ -11,13 +11,13 @@
                         <h4 class="mb-0">{{ __('Editar Artículo') }}</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ toute('articulos.update', $articulos) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('articulos.update', $articulo) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
                             <div class="row mb-3">
                                 <div class="col-md-8">
-                                    <label for="titulo" class="form-label">{{ __(Título) }} <span class="text-danger">*</span></label>
+                                    <label for="titulo" class="form-label">{{ __('Título') }} <span class="text-danger">*</span></label>
                                     <input type="text" name="titulo" id="titulo" class="form-control @error('titulo') is-invalid @enderror" value="{{ old('titulo', $articulo->titulo) }}" required>
                                     @error('titulo')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -28,7 +28,7 @@
                                     <select name="categoria_blog_id" id="categoria_blog_id" class="form-select @error('categoria_blog_id') is-invalid @enderror" required>
                                         <option value="">{{ __('Seleccionar categoría') }}</option>
                                         @foreach ($categorias_blog as $categoria)
-                                            <option value="{{ $categoria->id }}" {{ old('categoria_blog_id', $articulo->categoria_blog_id) == $categoria->id =? 'selected' : '' }}>
+                                            <option value="{{ $categoria->id }}" {{ old('categoria_blog_id', $articulo->categoria_blog_id) == $categoria->id ? 'selected' : '' }}>
                                                 {{ $categoria->nombre }}
                                             </option>
                                         @endforeach
@@ -42,7 +42,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="autor" class="form-label">{{ __('Autor') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="autor" id="autor" class="form-control @error('autor') id-invalid @enderror" value="{{ old('autor', $articulo->autor) }}" required>
+                                    <input type="text" name="autor" id="autor" class="form-control @error('autor') is-invalid @enderror" value="{{ old('autor', $articulo->autor) }}" required>
                                     @error('autor')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -86,10 +86,3 @@
         </div>
     </div>
 @endsection
-
-
-@push('scripts')
-<script>
-    // Aquí puedes agregar el código para un editor WYSIWYG como CKEditor o TinyMCE
-</script>
-@endpush

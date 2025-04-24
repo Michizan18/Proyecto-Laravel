@@ -23,7 +23,9 @@ Route::resource('articulos', ArticuloController::class);
 Route::get('articulos/categoria/{categoriaBlog}', [ArticuloController::class, 'porCategoria'])->name('articulos.categoria');
 
 // Rutas para Categorías de blog
-Route::resource('categorias-blog', CategoriaBlogController::class);
+Route::prefix('blog')->name('blog.')->group(function () {
+    Route::resource('categoriasBlog', CategoriaBlogController::class);
+});
 
 // Rutas para Comentarios
 Route::post('articulos/{articulo}/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');

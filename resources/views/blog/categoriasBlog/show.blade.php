@@ -1,70 +1,71 @@
+```blade
 @extends('layouts.app')
 
-@section('titulo', __('Detalle de Categoría del Blog'))
+@section('titulo', __('Detalle de Categoría'))
 
 @section('contenido')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Detalle de Categoría de Blog') }}</div>
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>{{ $categoriaBlog->nombre }}</h1>
+            <div>
+                <a href="{{ route('blog.categoriasBlog.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> {{ __('Volver') }}
+                </a>
+                <a href="{{ route('blog.categoriasBlog.edit', $categoriaBlog) }}" class="btn btn-warning ms-2">
+                    <i class="fas fa-edit"></i> {{ __('Editar') }}
+                </a>
+            </div>
+        </div>
 
-                <div class="card-body">
-                    <div class="form-group row mb-3">
-                        <label class="col-md-4 col-form-label text-md-right">{{ __('ID') }}:</label>
-                        <div class="col-md-6">
-                            <p class="form-control-static">{{ $categoria->id }}</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}:</label>
-                        <div class="col-md-6">
-                            <p class="form-control-static">{{ $categoria->nombre }}</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label class="col-md-4 col-form-label text-md-right">{{ __('Descripción') }}:</label>
-                        <div class="col-md-6">
-                            <p class="form-control-static">{{ $categoria->descripcion }}</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label class="col-md-4 col-form-label text-md-right">{{ __('Fecha de Creación') }}:</label>
-                        <div class="col-md-6">
-                            <p class="form-control-static">{{ $categoria->created_at->format('d/m/Y H:i:s') }}</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label class="col-md-4 col-form-label text-md-right">{{ __('Última Actualización') }}:</label>
-                        <div class="col-md-6">
-                            <p class="form-control-static">{{ $categoria->updated_at->format('d/m/Y H:i:s') }}</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <a href="{{ route('categorias_blog.edit', $categoria) }}" class="btn btn-primary">
-                                {{ __('Editar') }}
-                            </a>
-                            <a href="{{ route('categorias_blog.index') }}" class="btn btn-secondary">
-                                {{ __('Volver') }}
-                            </a>
-                            <form action="{{ route('categorias_blog.destroy', $categoria) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro?')">
-                                    {{ __('Eliminar') }}
-                                </button>
-                            </form>
-                        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ __('Información de la Categoría') }}</h5>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <p><strong>{{ __('Nombre') }}:</strong> {{ $categoriaBlog->nombre }}</p>
+                        <p><strong>{{ __('Descripción') }}:</strong> {{ $categoriaBlog->descripcion }}</p>
+                        <p><strong>{{ __('Fecha de Creación') }}:</strong> {{ \Carbon\Carbon::parse($categoriaBlog->created_at)->format('d/m/Y H:i') }}</p>
+                        <p><strong>{{ __('Última Actualización') }}:</strong> {{ \Carbon\Carbon::parse($categoriaBlog->updated_at)->format('d/m/Y H:i') }}</p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ __('Artículos en esta Categoría') }}</h5>
+                
+                <div class="table-responsive mt-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ __('Título') }}</th>
+                                <th>{{ __('Autor') }}</th>
+                                <th>{{ __('Fecha de Publicación') }}</th>
+                                <th>{{ __('Acciones') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($categoriaBlog->articulos as $articulo)
+                                <tr>
+                                    <td>{{ $articulo->titulo }}</td>
+                                    <td>{{ $articulo->autor }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($articulo->fecha_publicacion)->format('d/m/Y') }}</td>
+                                    <td>
+                                        <a href="{{ route('blog.articulos.show', $articulo) }}" class="btn btn-sm btn-primary">{{ __('Ver') }}</a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center">{{ __('No hay artículos en esta categoría') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 @endsection
+```
