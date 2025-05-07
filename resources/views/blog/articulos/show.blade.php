@@ -14,6 +14,12 @@
         </div>
     </div>
 
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="row mb-4">
         <div class="col-md-12">
             <div class="card">
@@ -21,7 +27,7 @@
                     <div class="d-flex justify-content-between">
                         <div>
                             <strong>Autor:</strong> {{ $articulo->autor }} |
-                            <strong>Categoría:</strong> {{ $articulo->categoria->nombre }} |
+                            <strong>Categoría:</strong> {{ $articulo->categoria ? $articulo->categoria->nombre : 'Sin categoría' }} |
                             <strong>Publicado:</strong> {{ \Carbon\Carbon::parse($articulo->fecha_publicacion)->format('d/m/Y H:i') }}
                         </div>
                         <div>
@@ -32,8 +38,8 @@
                     </div>
                 </div>
 
-                @if($articulo->imagen)
-                    <img src="{{ asset($articulo->imagen) }}" class="card-img-top" alt="{{ $articulo->titulo }}" style="max-height: 400px; object-fit: contain;">
+                @if($articulo->imagen_destacada)
+                    <img src="{{ asset($articulo->imagen_destacada) }}" class="card-img-top" alt="{{ $articulo->titulo }}" style="max-height: 400px; object-fit: contain;">
                 @endif
 
                 <div class="card-body">

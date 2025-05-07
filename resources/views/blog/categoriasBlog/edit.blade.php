@@ -1,4 +1,3 @@
-```blade
 @extends('layouts.app')
 
 @section('titulo', __('Editar Categoría de Blog'))
@@ -7,14 +6,14 @@
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>{{ __('Editar Categoría de Blog') }}</h1>
-            <a href="{{ route('blog.categoriasBlog.index') }}" class="btn btn-secondary">
+            <a href="{{ route('categoriasBlog.index') }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> {{ __('Volver') }}
             </a>
         </div>
 
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('blog.categoriasBlog.update', $categoriaBlog->id) }}" method="POST">
+                <form action="{{ route('categoriasBlog.update', $categoriaBlog) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -44,4 +43,3 @@
         </div>
     </div>
 @endsection
-```

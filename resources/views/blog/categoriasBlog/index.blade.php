@@ -6,16 +6,10 @@
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>{{ __('Categorías del Blog') }}</h1>
-            <a href="{{ route('blog.categoriasBlog.create') }}" class="btn btn-success">
+            <a href="{{ route('categoriasBlog.create') }}" class="btn btn-success">
                 <i class="fas fa-plus"></i> {{ __('Nueva Categoría') }}
             </a>
         </div>
-
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
 
         <div class="card">
             <div class="card-body">
@@ -39,9 +33,9 @@
                                     <td>{{ \Carbon\Carbon::parse($categoria->created_at)->format('d/m/Y H:i') }}</td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('blog.categoriasBlog.show', $categoria) }}" class="me-2 btn btn-sm btn-primary">{{ __('Ver') }}</a>
-                                            <a href="{{ route('blog.categoriasBlog.edit', $categoria) }}" class="me-2 btn btn-sm btn-warning">{{ __('Editar') }}</a>
-                                            <form action="{{ route('blog.categoriasBlog.destroy', $categoria) }}" method="POST" class="d-inline" onsubmit="return confirm('{{ __('¿Estás seguro de eliminar esta categoría?') }}')">
+                                            <a href="{{ route('categoriasBlog.show', $categoria) }}" class="me-2 btn btn-sm btn-primary">{{ __('Ver') }}</a>
+                                            <a href="{{ route('categoriasBlog.edit', $categoria) }}" class="me-2 btn btn-sm btn-warning">{{ __('Editar') }}</a>
+                                            <form action="{{ route('categoriasBlog.destroy', $categoria) }}" method="POST" class="d-inline" onsubmit="return confirm('{{ __('¿Estás seguro de eliminar esta categoría?') }}')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="me-2 btn btn-sm btn-danger">{{ __('Eliminar')}}</button>

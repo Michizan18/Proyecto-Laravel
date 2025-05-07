@@ -15,7 +15,7 @@ class ComentarioController extends Controller
     public function index(Request $request)
     {
         $articulo_id = $request->input('articulo_id');
-
+        
         if ($articulo_id) {
             $comentarios = Comentario::where('articulo_id', $articulo_id)->paginate(15);
             $articulo = Articulo::findOrFail($articulo_id);
@@ -25,7 +25,7 @@ class ComentarioController extends Controller
             return view('blog.comentarios.index', compact('comentarios'));
         }
     }
-
+    
     /**
      * Muestra el formulario para crear un nuevo comentario
      */
@@ -33,32 +33,31 @@ class ComentarioController extends Controller
     {
         $articulo_id = $request->input('articulo_id');
         $articulo = Articulo::findOrFail($articulo_id);
-
+        
         return view('blog.comentarios.create', compact('articulo'));
     }
-
+    
     /**
      * Almacena un nuevo comentario para un artículo específico
      */
-    public function store(Request $request, Articulo $articulo)
+    public function store(Request $request)
     {
         $request->validate([
+            'articulo_id' => 'required|exists:articulos,id',
             'contenido' => 'required|string',
             'nombre_usuario' => 'required|string|max:55',
             'email' => 'required|email|max:55'
         ]);
-
+        
         $comentario = new Comentario($request->all());
-        $comentario->articulo_id = $articulo->id;
         $comentario->save();
-
-        // Aquí se implementaría el envío de correo al autor del artículo
-        // Mail::to($articulo->autor_email)->send(new NuevoComentarioMail($comentario, $articulo));
-
+        
+        $articulo = Articulo::findOrFail($request->articulo_id);
+        
         return redirect()->route('blog.articulos.show', $articulo)
             ->with('success', 'Comentario agregado exitosamente');
     }
-
+    
     /**
      * Muestra los detalles de un comentario especifíco
      */
@@ -66,7 +65,7 @@ class ComentarioController extends Controller
     {
         return view('blog.comentarios.show', compact('comentario'));
     }
-
+    
     /**
      * Muestra el formulario para editar un comentario
      */
@@ -74,7 +73,7 @@ class ComentarioController extends Controller
     {
         return view('blog.comentarios.edit', compact('comentario'));
     }
-
+    
     /**
      * Actualiza un comentario específico en la base de datos
      */
@@ -85,13 +84,13 @@ class ComentarioController extends Controller
             'nombre_usuario' => 'required|string|max:55',
             'email' => 'required|email|max:55',
         ]);
-
+        
         $comentario->update($request->all());
-
+        
         return redirect()->route('blog.articulos.show', $comentario->articulo)
             ->with('success', 'Comentario actualizado exitosamente');
     }
-
+    
     /**
      * Elimina un comentario específico de la base de datos
      */
@@ -99,7 +98,7 @@ class ComentarioController extends Controller
     {
         $articulo = $comentario->articulo;
         $comentario->delete();
-
+        
         return redirect()->route('blog.articulos.show', $articulo)
             ->with('success', 'Comentario eliminado con éxito');
     }

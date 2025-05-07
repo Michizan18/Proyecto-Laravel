@@ -8,20 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class Articulo extends Model
 {
     use HasFactory;
-    
-    protected $table = 'articulos';
-    
-    protected $fillable = ['titulo', 'contenido', 'imagen_destacada', 'autor', 'categoria_blog_id', 'fecha_publicacion'];
-    
-    // Relación con categoría de blog
-    public function categoriaBlog()
+
+    protected $fillable = [
+        'titulo',
+        'contenido',
+        'imagen_destacada',
+        'extracto',
+        'autor',
+        'fecha_publicacion',
+        'slug',
+        'categoria_blog_id'
+    ];
+
+    // Un artículo pertenece a una categoría
+    public function categoria()
     {
-        return $this->belongsTo(CategoriaBlog::class, 'categoria_blog_id');
+        return $this->belongsTo(Categoria::class, 'categoria_blog_id');
     }
-    
-    // Relación con comentarios
+
+    // Un artículo tiene muchos comentarios
     public function comentarios()
     {
-        return $this->hasMany(Comentario::class, 'articulo_id');
+        return $this->hasMany(Comentario::class);
     }
 }

@@ -1,4 +1,4 @@
-```blade
+
 @extends('layouts.app')
 
 @section('titulo', __('Detalle de Categoría'))
@@ -8,11 +8,8 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>{{ $categoriaBlog->nombre }}</h1>
             <div>
-                <a href="{{ route('blog.categoriasBlog.index') }}" class="btn btn-secondary">
+                <a href="{{ route('categoriasBlog.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> {{ __('Volver') }}
-                </a>
-                <a href="{{ route('blog.categoriasBlog.edit', $categoriaBlog) }}" class="btn btn-warning ms-2">
-                    <i class="fas fa-edit"></i> {{ __('Editar') }}
                 </a>
             </div>
         </div>
@@ -53,7 +50,7 @@
                                     <td>{{ $articulo->autor }}</td>
                                     <td>{{ \Carbon\Carbon::parse($articulo->fecha_publicacion)->format('d/m/Y') }}</td>
                                     <td>
-                                        <a href="{{ route('blog.articulos.show', $articulo) }}" class="btn btn-sm btn-primary">{{ __('Ver') }}</a>
+                                        <a href="{{ route('articulos.show', $articulo) }}" class="btn btn-sm btn-primary">{{ __('Ver') }}</a>
                                     </td>
                                 </tr>
                             @empty
@@ -68,4 +65,3 @@
         </div>
     </div>
 @endsection
-```

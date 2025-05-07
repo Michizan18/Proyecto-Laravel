@@ -30,16 +30,16 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="categoria_id" class="form-label">Categoría <span class="text-danger">*</span></label>
-                            <select class="form-select @error('categoria_id') is-invalid @enderror" id="categoria_id" name="categoria_id" required>
+                            <label for="categoria_blog_id" class="form-label">Categoría <span class="text-danger">*</span></label>
+                            <select class="form-select @error('categoria_blog_id') is-invalid @enderror" id="categoria_blog_id" name="categoria_blog_id" required>
                                 <option value="">Selecciona una categoría</option>
                                 @foreach($categorias_blog as $categoria)
-                                    <option value="{{ $categoria->id }}" {{ old('categoria_id') == $categoria->id ? 'selected' : '' }}>
+                                    <option value="{{ $categoria->id }}" {{ old('categoria_blog_id') == $categoria->id ? 'selected' : '' }}>
                                         {{ $categoria->nombre }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('categoria_id')
+                            @error('categoria_blog_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -61,10 +61,10 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="imagen" class="form-label">Imagen Destacada</label>
-                            <input type="file" class="form-control @error('imagen') is-invalid @enderror" id="imagen" name="imagen">
+                            <label for="imagen_destacada" class="form-label">Imagen Destacada</label>
+                            <input type="file" class="form-control @error('imagen_destacada') is-invalid @enderror" id="imagen_destacada" name="imagen_destacada">
                             <div class="form-text">Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 2MB</div>
-                            @error('imagen')
+                            @error('imagen_destacada')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

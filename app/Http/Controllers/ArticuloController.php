@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Articulo;
 use App\Models\CategoriaBlog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log; 
 
 class ArticuloController extends Controller
 {
@@ -31,6 +33,7 @@ class ArticuloController extends Controller
     public function create()
     {
         $categorias_blog = CategoriaBlog::all();
+        // Asegúrate de que esta ruta coincida con la ubicación real de tu vista
         return view('blog.articulos.create', compact('categorias_blog'));
     }
 
@@ -39,12 +42,23 @@ class ArticuloController extends Controller
      */
     public function store(Request $request)
     {
+        // Agrega esto para depuración
+        Log::info('Datos recibidos:', $request->all());
+        
+        // Verificar si existe el directorio para guardar imágenes
+        $directorio = public_path('imagenes/blog');
+        if (!file_exists($directorio)) {
+            Log::warning('El directorio no existe: ' . $directorio);
+            mkdir($directorio, 0755, true);
+            Log::info('Directorio creado: ' . $directorio);
+        }
+        
         $request->validate([
             'titulo' => 'required|string|max:255',
             'contenido' => 'required|string',
             'autor' => 'required|string|max:255',
             'categoria_blog_id' => 'required|exists:categorias_blog,id',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'imagen_destacada' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $articulo = new Articulo();
@@ -54,16 +68,17 @@ class ArticuloController extends Controller
         $articulo->categoria_blog_id = $request->categoria_blog_id;
         $articulo->fecha_publicacion = now();
         
-        if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
+        if ($request->hasFile('imagen_destacada')) {
+            $imagen = $request->file('imagen_destacada');
             $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
             $imagen->move(public_path('imagenes/blog'), $nombreImagen);
-            $articulo->imagen = 'imagenes/blog/' . $nombreImagen;
+            $articulo->imagen_destacada = 'imagenes/blog/' . $nombreImagen;
         }
         
         $articulo->save();
         
-        return redirect()->route('blog.articulos.index')
+        // Redirección a la ruta correcta según tu archivo de rutas
+        return redirect()->route('articulos.index')
             ->with('success', 'Artículo creado exitosamente.');
     }
 
@@ -72,7 +87,8 @@ class ArticuloController extends Controller
      */
     public function show(Articulo $articulo)
     {
-        $comentarios = $articulo->comentarios()->paginate(10);
+        $comentarios = $articulo->comentarios()->latest()->paginate(10);
+        
         return view('blog.articulos.show', compact('articulo', 'comentarios'));
     }
 
@@ -95,21 +111,22 @@ class ArticuloController extends Controller
             'contenido' => 'required|string',
             'autor' => 'required|string|max:255',
             'categoria_blog_id' => 'required|exists:categorias_blog,id',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'imagen_destacada' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
         
         $articulo->fill($request->except('imagen'));
         
-        if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
+        if ($request->hasFile('imagen_destacada')) {
+            $imagen = $request->file('imagen_destacada');
             $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
             $imagen->move(public_path('imagenes/blog'), $nombreImagen);
-            $articulo->imagen = 'imagenes/blog/' . $nombreImagen;
+            $articulo->imagen_destacada = 'imagenes/blog/' . $nombreImagen;
         }
         
         $articulo->save();
         
-        return redirect()->route('blog.articulos.index')
+        // Asegúrate de que esta ruta esté definida y sea correcta
+        return redirect()->route('articulos.index')
             ->with('success', 'Artículo actualizado exitosamente.');
     }
 
@@ -119,7 +136,7 @@ class ArticuloController extends Controller
     public function destroy(Articulo $articulo)
     {
         $articulo->delete();
-        return redirect()->route('blog.articulos.index')
+        return redirect()->route('articulos.index')
             ->with('success', 'Artículo eliminado exitosamente.');
     }
 }

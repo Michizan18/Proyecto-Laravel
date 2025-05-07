@@ -23,14 +23,17 @@ Route::resource('articulos', ArticuloController::class);
 Route::get('articulos/categoria/{categoriaBlog}', [ArticuloController::class, 'porCategoria'])->name('articulos.categoria');
 
 // Rutas para Categorías de blog
-Route::prefix('blog')->name('blog.')->group(function () {
-    Route::resource('categoriasBlog', CategoriaBlogController::class);
-});
+Route::resource('categoriasBlog', CategoriaBlogController::class);
 
 // Rutas para Comentarios
-Route::post('articulos/{articulo}/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
-Route::put('comentarios/{comentario}', [ComentarioController::class, 'update'])->name('comentarios.update');
-Route::delete('comentarios/{comentario}', [ComentarioController::class, 'destroy'])->name('comentarios.destroy');
+// Rutas para comentarios
+Route::get('/comentarios', [ComentarioController::class, 'index'])->name('blog.comentarios.index');
+Route::get('/comentarios/create', [ComentarioController::class, 'create'])->name('blog.comentarios.create');
+Route::post('/comentarios', [App\Http\Controllers\ComentarioController::class, 'store'])->name('comentarios.store');
+Route::get('/comentarios/{comentario}', [ComentarioController::class, 'show'])->name('blog.comentarios.show');
+Route::get('/comentarios/{comentario}/edit', [ComentarioController::class, 'edit'])->name('blog.comentarios.edit');
+Route::put('/comentarios/{comentario}', [ComentarioController::class, 'update'])->name('blog.comentarios.update');
+Route::delete('/comentarios/{comentario}', [ComentarioController::class, 'destroy'])->name('blog.comentarios.destroy');
 
 // Rutas para cambio de idioma
 Route::get('locale/{locale}', function ($locale) {

@@ -8,14 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Comentario extends Model
 {
     use HasFactory;
-    
-    protected $table = 'comentarios';
-    
-    protected $fillable = ['contenido', 'nombre_usuario', 'email', 'articulo_id'];
-    
-    // Relación con artículo
+
+    protected $fillable = [
+        'nombre_usuario',
+        'email',
+        'contenido',
+        'articulo_id'
+    ];
+
+    // Un comentario pertenece a un artículo
     public function articulo()
     {
-        return $this->belongsTo(Articulo::class, 'articulo_id');
+        return $this->belongsTo(Articulo::class);
     }
 }
